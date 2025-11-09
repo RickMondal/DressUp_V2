@@ -16,7 +16,7 @@ export default async function DressDetail({ params }: Props) {
       {dress.imageUrl && <img src={dress.imageUrl} alt={dress.title} style={{ maxWidth: 300 }} />}
       <p>{dress.description}</p>
       <p>Price per day: ${dress.pricePerDay}</p>
-      <form action="/cart" method="POST">
+      <form action="/api/proxy/cart/items" method="POST">
         <input type="hidden" name="dressId" value={dress.id} />
         <label>Days: <input type="number" name="days" defaultValue={1} min={1} /></label>
         <button>Add to cart</button>

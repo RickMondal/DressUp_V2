@@ -1,8 +1,8 @@
 import { Router, Request, Response } from 'express';
 import multer from 'multer';
 import path from 'path';
-import { prisma } from '../utils/prisma.js';
-import { requireAuth, requireSeller } from '../security/requireAuth.js';
+import { prisma } from '../utils/prisma';
+import { requireAuth, requireSeller } from '../security/requireAuth';
 
 const router = Router();
 const upload = multer({ dest: path.join(process.cwd(), 'server', 'uploads') });

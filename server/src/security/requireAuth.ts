@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import { createSecretKey } from 'crypto';
 import { jwtVerify } from 'jose';
-import { prisma } from '../utils/prisma.js';
+import { prisma } from '../utils/prisma';
 
 declare global {
   namespace Express {
