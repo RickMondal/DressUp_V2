@@ -9,7 +9,8 @@ router.get('/', requireAuth, async (req: Request, res: Response) => {
   const userId = req.user!.id;
   let cart = await prisma.cart.findUnique({ where: { userId }, include: { items: { include: { dress: true } } } });
   if (!cart) {
-    cart = await prisma.cart.create({ data: { userId } });
+    await prisma.cart.create({ data: { userId } });
+    cart = await prisma.cart.findUnique({ where: { userId }, include: { items: { include: { dress: true } } } });
   }
   res.json(cart);
 });

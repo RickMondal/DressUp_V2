@@ -7,8 +7,7 @@ export default function SellerDashboard() {
   const [kpis, setKpis] = useState<any>(null);
 
   useEffect(() => {
-    // TODO: attach auth token from NextAuth session
-    fetch(`${base}/seller/kpis`).then(r => r.json()).then(setKpis).catch(() => setKpis(null));
+    fetch(`/api/proxy/seller/kpis`).then(r => r.json()).then(setKpis).catch(() => setKpis(null));
   }, []);
 
   return (
@@ -22,7 +21,7 @@ export default function SellerDashboard() {
         </ul>
       )}
       <h2>Upload a new dress</h2>
-      <form action={`${base}/seller/upload`} method="post" encType="multipart/form-data">
+  <form action={`/api/proxy/seller/upload`} method="post" encType="multipart/form-data">
         <label>Title <input name="title" required /></label><br />
         <label>Description <input name="description" /></label><br />
         <label>Size <input name="size" /></label><br />
