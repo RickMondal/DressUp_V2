@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  BUYER
+  SELLER
+}
+
+model User {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email     String   @unique
+  name      String?
+  image     String?
+  role      Role     @default(BUYER)
+  dresses   Dress[]
+  rentals   Rental[]
+  cart      Cart?
+}
+
+model Dress {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  title       String
+  description String?
+  imageUrl    String?
+  size        String?
+  pricePerDay Int
+  ownerId     String
+  owner       User     @relation(fields: [ownerId], references: [id])
+  rentals     Rental[]
+  cartItems   CartItem[]
+  available   Boolean  @default(true)
+}
+
+model Cart {
+  id        String      @id @default(cuid())
+  userId    String      @unique
+  user      User        @relation(fields: [userId], references: [id])
+  items     CartItem[]
+  updatedAt DateTime    @updatedAt
+}
+
+model CartItem {
+  id        String @id @default(cuid())
+  cartId    String
+  cart      Cart   @relation(fields: [cartId], references: [id])
+  dressId   String
+  dress     Dress  @relation(fields: [dressId], references: [id])
+  days      Int    @default(1)
+  createdAt DateTime @default(now())
+}
+
+model Rental {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  dressId   String
+  dress     Dress    @relation(fields: [dressId], references: [id])
+  startDate DateTime
+  endDate   DateTime
+  createdAt DateTime @default(now())
+}

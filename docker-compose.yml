@@ -1,0 +1,44 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: dressup
+      POSTGRES_PASSWORD: dressup
+      POSTGRES_DB: dressup
+    ports:
+      - '5433:5432' # map to 5433 on host to avoid conflicts with local Postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+  server:
+    build: ./server
+    restart: unless-stopped
+    env_file:
+      - ./server/.env
+    environment:
+      DATABASE_URL: postgres://dressup:dressup@db:5432/dressup
+      PORT: 4000
+    volumes:
+      - ./server/src:/app/src
+      - ./server/prisma:/app/prisma
+      - ./server/uploads:/app/uploads
+    depends_on:
+      - db
+    ports:
+      - '4000:4000'
+  web:
+    build: ./web
+    restart: unless-stopped
+    env_file:
+      - ./web/.env
+    environment:
+      NEXT_PUBLIC_API_BASE: http://localhost:4000
+    volumes:
+      - ./web:/app
+    depends_on:
+      - server
+    ports:
+      - '3000:3000'
+volumes:
+  db_data:

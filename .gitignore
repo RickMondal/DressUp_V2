@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Build output
+.next/
+dist/
+build/
+coverage/
+
+# Env files
+.env
+.env.local
+.env.*.local
+server/.env
+web/.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+*.pid
+*.seed
+**/uploads/
